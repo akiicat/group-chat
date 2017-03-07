@@ -4,11 +4,14 @@
 
 handleVisiblityChange = ->
   if !document.hidden
-    true
-    # 1. update last read timestamp
+    $strike = $(".strike")
+    if $strike.length > 0
+      chatroom_id = $("[data-behavior='messages']").data("chatroom-id")
+      App.last_read.update(chatroom_id)
+      $strike.remove()
 
 $(document).on "turbolinks:load", ->
-  $(document).on "visibilitychange", handleVisiblityChange
+  $(document).on "click", handleVisiblityChange
 
   $("#new_message").on "keypress", (e) ->
     if e && e.keyCode == 13
