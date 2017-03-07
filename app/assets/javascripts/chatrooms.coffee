@@ -2,7 +2,14 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+handleVisiblityChange = ->
+  if !document.hidden
+    true
+    # 1. update last read timestamp
+
 $(document).on "turbolinks:load", ->
+  $(document).on "visibilitychange", handleVisiblityChange
+
   $("#new_message").on "keypress", (e) ->
     if e && e.keyCode == 13
       e.preventDefault()
