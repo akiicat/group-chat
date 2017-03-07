@@ -11,4 +11,11 @@ class ChatroomsChannel < ApplicationCable::Channel
     stop_all_streams
     # Any cleanup needed when channel is unsubscribed
   end
+
+  def send_message(data)
+    @chatroom = Chatroom.find(data["chatroom_id"])
+    message   = @chatroom.messages.create(body: data["body"], user: current_user)
+    MessageRelayJob.perform_later(message)
+    Rails.logger.info data
+  end
 end
