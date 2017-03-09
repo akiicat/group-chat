@@ -50,23 +50,33 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <div class="fluid-container" style="margin-top: 70px">
-      <div class="row">
-        <div class="col-sm-2" style="position: fixed; top: 70px; left: 0;">
-          <% if user_signed_in? %>
-            <h5>Chatrooms</h5>
-            <ul>
-              <% current_user.chatrooms.each do |chatroom| %>
-                <li><%= link_to chatroom.name, chatroom, data: { behavior: "chatroom-link", chatroom_id: chatroom.id } %></li>
-              <% end %>
-            </ul>
-          <% end %>
+    <% if devise_controller? %>
+      <div class="fluid-container" style="margin-top: 70px">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <%= yield %>
+          </div>
         </div>
+      <div>
+    <% else %>
+      <div class="fluid-container" style="margin-top: 70px">
+        <div class="row">
+          <div class="col-sm-2" style="position: fixed; top: 70px; left: 0;">
+            <% if user_signed_in? %>
+              <h5>Chatrooms</h5>
+              <ul>
+                <% current_user.chatrooms.each do |chatroom| %>
+                  <li><%= link_to chatroom.name, chatroom, data: { behavior: "chatroom-link", chatroom_id: chatroom.id } %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
 
-        <div class="col-sm-10 col-sm-offset-2">
-          <%= yield %>
+          <div class="col-sm-10 col-sm-offset-2">
+            <%= yield %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
   </body>
 </html>
