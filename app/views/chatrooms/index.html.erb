@@ -14,11 +14,12 @@
     <% @chatrooms.each do |chatroom| %>
       <tr>
         <td><%= chatroom.name %></td>
-        <td><%= link_to 'Show', chatroom %></td>
-        <td><%= link_to 'Edit', edit_chatroom_path(chatroom) %></td>
-        <td><%= link_to 'Destroy', chatroom, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <td><%= link_to 'Join', chatroom_chatroom_users_path(chatroom), method: :post %></td>
         <td><%= link_to 'Leave', chatroom_chatroom_users_path(chatroom), method: :delete %></td>
+        <% if user_signed_in? and current_user.chatroom_users.present? %>
+          <td><%= link_to 'Edit', edit_chatroom_path(chatroom) %></td>
+          <td><%= link_to 'Destroy', chatroom, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
